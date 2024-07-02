@@ -1,0 +1,9 @@
+pip install pandas
+import pandas as pd
+topics_dict = {
+'title’: topic_titles,
+'description': topic_descs,
+'url': topic_urls
+}
+topics_df = pd. DataFrame(topics_dict)
+topics_df
