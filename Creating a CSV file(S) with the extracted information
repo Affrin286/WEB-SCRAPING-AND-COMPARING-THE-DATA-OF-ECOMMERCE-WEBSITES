@@ -1,0 +1,1 @@
+topics_df.to_csv ('topics.csv’, index=None)
