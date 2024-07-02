@@ -1,0 +1,36 @@
+import requests, re
+from bs4 import BeautifulSoup
+import pandas as pd
+def review_scraper (url, page):
+url=f"{url}&pagenumber={page}"
+user_agent= {
+'User-Agent':'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36
+(KHTML, like Gecko) Chrome/112.0.0.0 Safari/537.36',
+}
+response=requests.get (url=url, headers=user_agent)
+soup=BeautifulSoup (response. content, ‘lxml')
+reviews= []
+for review in soup. find_all ('div',{'class':'a-section review aok-relative'}):
+name=review. find('span',{'class':'a-profile-name'}).text
+rating=review. find('i',{'class':'review-rating'}).text
+
+comments=(resub('\s+',' ‘, review.find('div',{'class':'a-rowa-spacing-smallreview-
+data'}).text))
+
+data= {
+'Name':name,
+'Rating’: rating,
+'Comments’: comments,
+}
+reviews. append(data)
+df=pd. DataFrame(reviews)
+
+df.to_excel ('reports.xlsx’, index=False)
+return reviews
+url="https://www.amazon.in/Sony-Bravia-inches-Google-KD-65X80K/product-
+reviews/B09ZLPZ4ZY/ref=cm_cr_dp_d_show_all_btm?ie=UTF8&reviewerType=all_revie
+ws"
+page=1
+for review in review scraper (url, page):
+print(review)
+print ()
